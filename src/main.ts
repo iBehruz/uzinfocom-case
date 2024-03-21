@@ -1,5 +1,6 @@
-import { createApp } from "vue";
+import { createApp } from 'vue';
 import App from "./App.vue";
+import unoverlay from 'unoverlay-vue';
 
 // import "~/styles/element/index.scss";
 
@@ -14,7 +15,12 @@ import "uno.css";
 
 // If you want to use ElMessage, import it.
 import "element-plus/theme-chalk/src/message.scss";
+import { createPinia } from "pinia";
 
+const pinia = createPinia();
 const app = createApp(App);
+app.use(unoverlay);
+app.use(pinia);
 // app.use(ElementPlus);
 app.mount("#app");
+
