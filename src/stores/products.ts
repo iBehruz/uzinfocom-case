@@ -23,7 +23,7 @@ export const useProductsStore = defineStore("products", () => {
   const response = ref({} as any);
   const dataProds = ref({data: [] as any});
   const data = computed(()=> dataProds.value.data);
-
+  const endpoint = "https://deviceshopmaster-json-server.onrender.com";
   function moneyFormatter(amount: number){
         const amountString = amount.toString();
       return Intl.NumberFormat('ru-RU', {
@@ -38,7 +38,7 @@ export const useProductsStore = defineStore("products", () => {
   async function get(_page: number = 1) {
     loading.value = true;
     try {
-      const _response = await axios.get("http://localhost:3000/products", {
+      const _response = await axios.get(endpoint+"/products", {
         params: {
           _page: _page
         }
@@ -62,7 +62,7 @@ export const useProductsStore = defineStore("products", () => {
   async function search(value: String, category?: string) {
     loading.value = true;
     try {
-      const _response = await axios.get("http://localhost:3000/products", {
+      const _response = await axios.get(endpoint+"/products", {
         params: {
           model_like: value,
           category: category != '' ? category : null
@@ -84,7 +84,7 @@ export const useProductsStore = defineStore("products", () => {
   async function create(_data: Product) {
     loading.value = true;
     try {
-      const _response = await axios.post("http://localhost:3000/products", { 
+      const _response = await axios.post(endpoint+"/products", { 
         model: _data.model,
         amount: _data.amount.toString().replaceAll(' ', '').replaceAll(',', '.'),
         category: _data.category,
@@ -111,7 +111,7 @@ export const useProductsStore = defineStore("products", () => {
   async function update(id: Number, _data: Product) {
     loading.value = true;
     try {
-      const _response = await axios.patch("http://localhost:3000/products/"+id, {
+      const _response = await axios.patch(endpoint+"/products/"+id, {
         model: _data.model,
         amount: _data.amount.toString().replaceAll(' ', '').replaceAll(',', '.'),
         category: _data.category,
@@ -135,7 +135,7 @@ export const useProductsStore = defineStore("products", () => {
   async function remove(id: Number) {
     loading.value = true;
     try {
-      const _response = await axios.delete("http://localhost:3000/products/"+id);
+      const _response = await axios.delete(endpoint+"/products/"+id);
       loaded.value = true;
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -150,4 +150,3 @@ export const useProductsStore = defineStore("products", () => {
 
   return { loading, loaded, response, data, dataProds, total, get, update, create, remove, search, moneyFormatter };
 });
-
